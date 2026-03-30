@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        padding: 20px;
+        background-color: #1a1a1a;
+        color: #ffb84d;
+    }
+    h2 {
+        color: #ffa31a;
+        border-bottom: 2px solid #ff8000;
+        padding-bottom: 5px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        width: 220px;
+        border: 2px solid #ff8000;
+        border-radius: 5px;
+        background-color: #262626;
+        color: #ffcc80;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    input[type="text"]:focus {
+        border-color: #ffb84d;
+    }
+    button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        background-color: #ff8000;
+        border: none;
+        border-radius: 5px;
+        color: #1a1a1a;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #e67300;
+    }
+</style>
+</head>
+<body>
+    <h2>Admin Broadcast Panel</h2>
+    <input type="text" id="msgInput" value="">
+    <button onclick="sendUpdate()">Broadcast</button>
+
+    <script>
+        function sendUpdate() {
+            const msg = document.getElementById('msgInput').value;
+            // Update localstorage to trigger event in index.html
+            localStorage.setItem('adminBroadcast', msg);
+            
+        }
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Page</title>
+</head>
+<body style= font-family: sans-serif;">
+
+
+    <!-- Notification Toast Element -->
+    <div id="techNotify" style="position:fixed;top:20px;right:-350px;width:300px;background:#1a1a1a;color:#fff;padding:15px;border-left:4px solid #ff7f00;box-shadow:0 4px 15px rgba(0,0,0,0.5);font-family:sans-serif;transition:right 0.5s ease-in-out;z-index:9999;border-radius:4px;box-sizing:border-box;">                
+        <div style="font-weight:bold;color:#ff7f00;margin-bottom:5px;">Message from Admin</div>
+        <div id="notifyMessage" style="font-size:14px;">Process completed successfully.</div>                
+        <div id="notifyBar" style="position:absolute;bottom:0;left:0;height:4px;background:#ff7f00;width:100%;"></div>                
+    </div>
+
+    <script>
+        function showNotification(message) {
+            const toast = document.getElementById('techNotify');
+            const bar = document.getElementById('notifyBar');
+            const messageBody = document.getElementById('notifyMessage');
+
+            if (message) messageBody.innerText = message;
+
+            // Slide in
+            toast.style.right = '20px';
+            
+            // Reset and Animate Bar
+            bar.style.transition = 'none';
+            bar.style.width = '100%';
+            setTimeout(() => {
+                bar.style.transition = 'width 3s linear';
+                bar.style.width = '0%';
+            }, 100);
+
+            // Slide out
+            setTimeout(() => {
+                toast.style.right = '-350px';
+            }, 3000);
+        }
+
+        // Listen for storage changes from admin.html
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'adminBroadcast') {
+                showNotification(event.newValue);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Global Poll</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 { color: orange; }
+    input, button, textarea {
+        padding: 10px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    input, textarea {
+        width: 80%;
+    }
+    button {
+        background-color: orange;
+        color: black;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    button:hover {
+        background-color: #ff9900;
+    }
+</style>
+</head>
+<body>
+    <h1>Admin Panel - Global Poll</h1>
+    <input type="text" id="pollQuestion" placeholder="Enter poll question"><br>
+    <textarea id="pollOptions" placeholder="Enter options (one per line)"></textarea><br>
+    <button onclick="savePoll()">Save Poll</button>
+
+<script>
+function savePoll() {
+    const question = document.getElementById("pollQuestion").value.trim();
+    const options = document.getElementById("pollOptions").value.trim().split("\n").filter(o => o);
+
+    if (!question || options.length < 2) {
+        alert("Please enter a question and at least two options.");
+        return;
+    }
+
+    const pollData = {
+        question: question,
+        options: options,
+        votes: Array(options.length).fill(0)
+    };
+
+    localStorage.setItem("globalPoll", JSON.stringify(pollData));
+    alert("Poll saved successfully!");
+}
+</script>
+</body>
+</html>
