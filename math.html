@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboRealm V2.0 - CodeHS Edition</title>
+    <script src="https://cdn.commoninja.com" defer></script>
+    <style>
+        /* UI CORE STYLING */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #050505;
+            font-family: 'Courier New', Courier, monospace;
+            color: #FF8C00;
+        }
+
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .glitch {
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 rgba(255, 140, 0, 0.75), -0.025em -0.05em 0 rgba(255, 140, 0, 0.75), 0.025em 0.05em 0 rgba(255, 140, 0, 0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        #main-content {
+            display: none;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 10px #FF8C00;
+        }
+
+        .announcement {
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid #FF8C00;
+            color: #FF8C00;
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 5px;
+        }
+
+        #typing-text {
+            font-size: 1.2rem;
+            height: 1.5rem;
+            margin-bottom: 30px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid #FF8C00;
+            color: #FF8C00;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button:hover {
+            background: #FF8C00;
+            color: black;
+            box-shadow: 0 0 15px #FF8C00;
+        }
+
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .tracker-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .tracker-box {
+            margin: 20px 10px;
+            border: 1px solid #FF8C00;
+            padding: 20px;
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.82);
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .tracker-box h2 {
+            font-size: 0.8rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 3px;
+            color: #FF8C00;
+        }
+
+        .count-val {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px #FF8C00;
+        }
+
+        /* POLL MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .poll-container {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 4px;
+            text-align: left;
+            min-width: 320px;
+            border: 1px solid #FF8C00;
+            color: white;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #FF8C00;
+        }
+
+        #pollTimer {
+            color: #fff;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .glitch { font-size: 2.5rem; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div id="intro">
+        <div class="glitch">RoboRealm V2.0</div>
+        <p style="letter-spacing: 3px; color: #FF8C00;">BYPASSING FIREWALLS...</p>
+    </div>
+
+    <div id="main-content">
+        <div class="announcement">
+            SYSTEM UPDATE: NAUTILUSOS AND ALL OVERCLOAKED LINKS HAVE BEEN ADDED
+        </div>
+        <h1>RoboRealm V2.0</h1>
+        <div id="typing-text">Initializing...</div>
+        
+        <div class="buttons">
+            <button onclick="location.href='g.html'">Games</button>
+            <button onclick="location.href='p.html'">Bypass</button>
+            <button onclick="location.href='a.html'">Apps</button>
+            <button onclick="location.href='mo.html'">Movies</button>
+            <button onclick="location.href='s.html'">Settings</button>
+            <button onclick="location.href='credits.html'">Credits</button>
+            <button onclick="location.href='other.html'">Alternate Links</button>
+        </div>
+
+        <div class="tracker-container">
+            <div class="tracker-box">
+                <h2>GAMES</h2>
+                <div class="count-val">23+</div>
+            </div>
+            <div class="tracker-box">
+                <h2>BYPASSES</h2>
+                <div class="count-val">18</div>
+            </div>
+            <div class="tracker-box">
+                <h2>TOTAL VISITS</h2>
+                <div id="visitCountTotal" class="count-val">0</div>
+            </div>
+        </div>
+
+        <!-- Common Ninja Widget -->
+        <div class="commonninja_component" pid="2242b59d-e269-44ed-a541-c48a872025b9"></div>
+    </div>
+
+    <!-- POLL MODAL -->
+    <div id="pollModal" class="modal-overlay">
+        <div class="poll-container">
+            <span class="close-btn" onclick="closePoll()">&times;</span>
+            <div id="pollTimer">Time remaining: 60s</div>
+            <div id="pollArea"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Visit Tracker ---
+        (function() {
+            let total = parseInt(localStorage.getItem('totalVisits') || '0', 10);
+            total++;
+            localStorage.setItem('totalVisits', total);
+            const display = document.getElementById('visitCountTotal');
+            if(display) display.innerText = total.toLocaleString();
+        })();
+
+        // --- Intro Sequence ---
+        setTimeout(() => {
+            const intro = document.getElementById('intro');
+            const main = document.getElementById('main-content');
+            intro.style.transition = "opacity 1s ease";
+            intro.style.opacity = "0";
+            setTimeout(() => {
+                intro.style.display = 'none';
+                main.style.display = 'block';
+                startTyping();
+                openPoll(); 
+            }, 1000);
+        }, 3500);
+
+        // --- Typing Logic ---
+        const typingText = document.getElementById('typing-text');
+        const lines = [
+            "INSERT TEXT HERE",
+            "Yes, this was inspired by noah's tutoring hub",
+            "New admin thrash is goated..",
+            "HII STERLINGGG",
+            "GAMES -Xavier",
+            "Tornadoooooo 🌪",
+            "Heees playing gaaaames",
+            "There is too much infamous rn",
+            "ISH IS BACK??",
+            "I AM IN CONSTANT GLASS PAIN -Sterling",
+            "Why are you still listening? Go play a game!"
+        ];
+        let lineIdx = 0, charIdx = 0, isDeleting = false;
+
+        function startTyping() {
+            const current = lines[lineIdx];
+            typingText.innerText = isDeleting ? current.substring(0, charIdx--) : current.substring(0, charIdx++);
+            let speed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIdx > current.length) {
+                isDeleting = true;
+                speed = 2000;
+            } else if (isDeleting && charIdx < 0) {
+                isDeleting = false;
+                lineIdx = (lineIdx + 1) % lines.length;
+                charIdx = 0;
+            }
+            setTimeout(startTyping, speed);
+        }
+
+        // --- Matrix Background ---
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+
+        function setupMatrix() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(Math.floor(canvas.width / 16)).fill(1);
+        }
+        setupMatrix();
+        window.addEventListener('resize', setupMatrix);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#FF8C00';
+            ctx.font = '16px monospace';
+            drops.forEach((y, i) => {
+                const char = "1010110"[Math.floor(Math.random()*7)];
+                ctx.fillText(char, i * 16, y * 16);
+                if (y * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 40);
+
+        // --- Poll System ---
+        let pollTimer;
+        function openPoll() {
+            if (!localStorage.getItem("globalPoll")) {
+                localStorage.setItem("globalPoll", JSON.stringify({
+                    question: "Favorite RoboRealm Feature?",
+                    options: ["Games", "Bypasses", "Movies"],
+                    votes: [0, 0, 0]
+                }));
+            }
+            loadPoll();
+        }
+
+        function loadPoll() {
+            const data = JSON.parse(localStorage.getItem("globalPoll"));
+            const area = document.getElementById("pollArea");
+            document.getElementById("pollModal").style.display = "flex";
+            let html = `<h2 style="color:#FF8C00; margin-top:0;">${data.question}</h2>`;
+            data.options.forEach((opt, i) => {
+                html += `<label style="display:block; margin:10px 0; cursor:pointer;">
+                            <input type="radio" name="vote" value="${i}"> ${opt}
+                         </label>`;
+            });
+            html += `<button onclick="submitVote()" style="width:100%; margin-top:10px;">Submit</button>`;
+            area.innerHTML = html;
+
+            let timeLeft = 60;
+            clearInterval(pollTimer);
+            pollTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("pollTimer").innerText = `Time remaining: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(pollTimer);
+                    closePoll();
+                }
+            }, 1000);
+        }
+
+        function submitVote() {
+            const data = JSON.parse(localStorage.getItem("globalPoll"));
+            const selected = document.querySelector('input[name="vote"]:checked');
+            if (!selected) return alert("Select an option!");
+            const idx = parseInt(selected.value);
+            data.votes[idx]++;
+            localStorage.setItem("globalPoll", JSON.stringify(data));
+            showResults(data);
+        }
+
+        function showResults(data) {
+            clearInterval(pollTimer);
+            const area = document.getElementById("pollArea");
+            const total = data.votes.reduce((a, b) => a + b, 0);
+            let html = `<h2 style="color:#FF8C00; margin-top:0;">Results</h2>`;
+            data.options.forEach((opt, i) => {
+                const pct = total > 0 ? Math.round((data.votes[i] / total) * 100) : 0;
+                html += `<div style="margin:10px 0;">${opt}: ${pct}% (${data.votes[i]} votes)</div>`;
+            });
+            html += `<p style="font-size:0.7rem; color:#666;">Total: ${total}</p>`;
+            area.innerHTML = html;
+        }
+
+        function closePoll() {
+            document.getElementById("pollModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
