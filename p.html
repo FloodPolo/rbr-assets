@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboRealm v2.0</title>
+    <style>
+        :root {
+            --orange: #ff6600;
+            --dark-orange: #e65c00;
+            --bg-color: #0a0a0a;
+            --panel-color: #1a1a1a;
+            --text-color: #ffffff;
+            --font-tech: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-tech);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(26,26,26,0.8);
+            border: 1px solid var(--orange);
+            padding: 8px 15px;
+            border-radius: 50px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-btn img {
+            height: 25px;
+            width: auto;
+            filter: drop-shadow(0 0 2px var(--orange));
+        }
+
+        /* Search Bar Styling */
+        .search-container {
+            margin-top: 120px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            letter-spacing: 4px;
+            color: var(--orange);
+            text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid var(--orange);
+            color: white;
+            font-family: var(--font-tech);
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+        }
+
+        /* Rectangular Image Buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 40px;
+            padding-bottom: 50px;
+        }
+
+        .main-btn {
+            height: 140px;
+            border: 2px solid var(--orange);
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 4px;
+        }
+
+        .main-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px var(--orange);
+        }
+
+        .btn-label {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--orange);
+            width: 100%;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-top: 1px solid var(--orange);
+        }
+
+        /* Page Loader & Close Button */
+        #content-viewer {
+            display: none;
+            position: fixed;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: var(--panel-color);
+            border: 2px solid var(--orange);
+            z-index: 2000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
+
+        #close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+        }
+
+        /* Launch Button Style */
+        #launch-btn {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            height: 35px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-family: var(--font-tech);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="math.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/108c9f2494e6974b1f4d0f292e80015b" alt="System">
+  </a>
+  <a href="g.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/71ed269e404bb4f7e7cf45d35c07ccde" alt="G">
+  </a>
+  <a href="p.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/6f5d8a7fcf0b86d524336babc4fff07c" alt="P">
+  </a>
+  
+  <a href="mo.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/c5cb4dec5a572a59985e0c6c925c5db9"></a>
+  <a href="a.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/5517bf4c67458246f4175d7bdbb9fc21"></a>
+
+</div>
+
+    <div class="search-container">
+        <h1>ROBOREALM V2.0</h1>
+        <input type="text" id="searchBar" placeholder="Search modules..." onkeyup="filterButtons()">
+    </div>
+
+    <div class="button-grid" id="btnGrid">
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/30e8286c8e0ad7ed9d612b6f6c590d78')" onclick="loadPage('/BYP/Noah.html')">
+            <span class="btn-label">Noah's Tutoring Hub</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/f0eb3796ddd4ba07c2d5c2f62606d5a7')" onclick="loadPage('/BYP/dogeb.html')">
+            <span class="btn-label">DogeUb</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/f0eb3796ddd4ba07c2d5c2f62606d5a7')" onclick="loadPage('/BYP/dogeb2.html')">
+            <span class="btn-label">DogeUb 2</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/f0eb3796ddd4ba07c2d5c2f62606d5a7')" onclick="loadPage('/BYP/dogeb3.html')">
+            <span class="btn-label">DogeUb 3</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/cdd9da126111dc2d5b2b605f989bf780')" onclick="loadPage('/BYP/fern.html')">
+            <span class="btn-label">Fern</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/cdd9da126111dc2d5b2b605f989bf780')" onclick="loadPage('/BYP/fern2.html')">
+            <span class="btn-label">Fern 2</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over.html')">
+            <span class="btn-label">Overcloaked</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over2.html')">
+            <span class="btn-label">Overcloaked 2</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over3.html')">
+            <span class="btn-label">Overcloaked 3</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over4.html')">
+            <span class="btn-label">Overcloaked 4</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over5.html')">
+            <span class="btn-label">Overcloaked 5</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e5804a363aeae72edfa0be0094cb4eca')" onclick="loadPage('/BYP/over6.html')">
+            <span class="btn-label">Overcloaked 6</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/cccf7247cd27972333b4d9ebc5955a57')" onclick="loadPage('/BYP/petezah.html')">
+            <span class="btn-label">Petezah</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/cccf7247cd27972333b4d9ebc5955a57')" onclick="loadPage('/BYP/pete2.html')">
+            <span class="btn-label">Petezah 2</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/dfcc6d2d88c1c588ee483a8ee4ab94b0')" onclick="loadPage('/BYP/celestial.html')">
+            <span class="btn-label">Celestial</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/42d9c92924a6c5880af2f665c7c7d776')" onclick="loadPage('/BYP/ghost.html')">
+            <span class="btn-label">Ghost</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e426cd0ba05b9aef7e09aa34e05452fb')" onclick="loadPage('/BYP/nautilus.html')">
+            <span class="btn-label">NautilusOS</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/8699ea350fc9714dfecfb19d4036cfec')" onclick="loadPage('/BYP/vapor.html')">
+            <span class="btn-label">Vapor</span>
+        </div>
+        
+        
+    </div>
+
+    <!-- Content Viewer -->
+    <div id="content-viewer">
+        <button id="close-btn" onclick="unloadPage()">X</button>
+        <!-- Include this in your <head> section -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Updated Button Code -->
+<button id="launch-btn" onclick="launchAB()">
+    <i class="fas fa-external-link-alt"></i> 
+</button>
+<iframe id="page-frame" src=""></iframe>
+
+
+    <script>
+        function loadPage(url) {
+            document.getElementById('page-frame').src = url;
+            document.getElementById('content-viewer').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function unloadPage() {
+            document.getElementById('content-viewer').style.display = 'none';
+            document.getElementById('page-frame').src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function launchAB() {
+            var url = document.getElementById('page-frame').src;
+            if (!url || url === "" || url === window.location.href) return;
+
+            var win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.body.style.margin = '0';
+                win.document.body.style.height = '100vh';
+                var iframe = win.document.createElement('iframe');
+                iframe.style.border = 'none';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.margin = '0';
+                iframe.src = url;
+                win.document.body.appendChild(iframe);
+            }
+        }
+
+        function filterButtons() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let buttons = document.getElementsByClassName('main-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                let text = buttons[i].querySelector('.btn-label').innerText.toLowerCase();
+                buttons[i].style.display = text.includes(input) ? "flex" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
