@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboRealm v2.0</title>
+    <style>
+        :root {
+            --orange: #ff6600;
+            --dark-orange: #e65c00;
+            --bg-color: #0a0a0a;
+            --panel-color: #1a1a1a;
+            --text-color: #ffffff;
+            --font-tech: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-tech);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(26,26,26,0.8);
+            border: 1px solid var(--orange);
+            padding: 8px 15px;
+            border-radius: 50px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-btn img {
+            height: 25px;
+            width: auto;
+            filter: drop-shadow(0 0 2px var(--orange));
+        }
+
+        /* Search Bar Styling */
+        .search-container {
+            margin-top: 120px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            letter-spacing: 4px;
+            color: var(--orange);
+            text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid var(--orange);
+            color: white;
+            font-family: var(--font-tech);
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+        }
+
+        /* Rectangular Image Buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 40px;
+            padding-bottom: 50px;
+        }
+
+        .main-btn {
+            height: 140px;
+            border: 2px solid var(--orange);
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 4px;
+        }
+
+        .main-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px var(--orange);
+        }
+
+        .btn-label {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--orange);
+            width: 100%;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-top: 1px solid var(--orange);
+        }
+
+        /* Page Loader & Close Button */
+        #content-viewer {
+            display: none;
+            position: fixed;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: var(--panel-color);
+            border: 2px solid var(--orange);
+            z-index: 2000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
+
+        #close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+        }
+
+        /* New Launch Button Style */
+        #launch-btn {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            height: 35px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-family: var(--font-tech);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Correct Structure -->
+<div class="top-nav">
+  <!-- First Button -->
+  <a href="math.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/108c9f2494e6974b1f4d0f292e80015b" alt="System">
+  </a>
+  
+  <!-- Second Button (Sibling, not nested) -->
+  <a href="g.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/71ed269e404bb4f7e7cf45d35c07ccde" alt="G">
+  </a>
+  
+  <a href="p.html" class="nav-btn" title="System">
+    <img src="https://codehs.com/uploads/6f5d8a7fcf0b86d524336babc4fff07c" alt="P">
+  </a>
+  
+  <a href="mo.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/c5cb4dec5a572a59985e0c6c925c5db9"></a>
+  
+  <a href="a.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/5517bf4c67458246f4175d7bdbb9fc21"></a>
+  
+
+</div>
+
+        
+    </div>
+
+    <div class="search-container">
+        <h1>ROBOREALM V2.0</h1>
+        <input type="text" id="searchBar" placeholder="Search modules..." onkeyup="filterButtons()">
+    </div>
+
+    <div class="button-grid" id="btnGrid">
+        <!-- FNAF 1 -->
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/0e9a184eaab6d20f1ed89c5fb96a7626')" onclick="loadPage('/GMS/FNAF1.html')">
+            <span class="btn-label">FNAF 1</span>
+        </div>
+
+        <!-- FNAF 2 -->
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/b4a499677d9a1ecbde3ff71959bc0f0f')" onclick="loadPage('/GMS/FNAF2.html')">
+            <span class="btn-label">FNAF 2</span>
+        </div>
+
+        <!-- Network -->
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/c4f958911ea052d6cf80f896560149de')" onclick="loadPage('/GMS/FNAF3.html')">
+            <span class="btn-label">FNAF 3</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/4c1818904795ef3823f57415b7b45026')" onclick="loadPage('/GMS/FNAF4.html')">
+            <span class="btn-label">FNAF 4</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/85f22b8106e79b180e8b68ea96227fe2')" onclick="loadPage('/GMS/FNAF4H.html')">
+            <span class="btn-label">FNAF 4 Halloween</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/37002d3258e1f35683e3df75311388e2')" onclick="loadPage('/GMS/FNAFSL.html')">
+            <span class="btn-label">FNAF SL</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/b8b8581c993bae30dd9ecd9c458fd7ac')" onclick="loadPage('/GMS/FNAFW.html')">
+            <span class="btn-label">FNAF World</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/6717764eae75f0496aff13ae80c2af31')" onclick="loadPage('/GMS/FNAFUCN.html')">
+            <span class="btn-label">FNAF UCN</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/9345162d6a4569161b9cc59b52b1044a')" onclick="loadPage('/GMS/FNAFPS.html')">
+            <span class="btn-label">FNAF PS</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/8173ab38bfbdd7fc1e7cc0db1983d9b1')" onclick="loadPage('/GMS/1v1-lol.html')">
+            <span class="btn-label">1v1.lol</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/17400808c30412dea78f46011f8f2298')" onclick="loadPage('/GMS/spacewaves.html')">
+            <span class="btn-label">Space Waves</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/1b2ed22a099603655798381f91446f1e')" onclick="loadPage('/GMS/cookieclicker.html')">
+            <span class="btn-label">Cookie Clicker</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/689e0dc5ac57768af91cfd636f2a8345')" onclick="loadPage('/GMS/escaperoad.html')">
+            <span class="btn-label">Escape Road</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/ae6982e3970fffeb376ceff889974269')" onclick="loadPage('/GMS/bitlife.html')">
+            <span class="btn-label">Bitlife</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/8b49f00ae89840e541a3a179a47c1e26')" onclick="loadPage('/GMS/pixelshooter.html')">
+            <span class="btn-label">Pixel Shooter</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/3a5ce985f6282e39dcb756b7f5d0c9f0')" onclick="loadPage('/GMS/retrobowl.html')">
+            <span class="btn-label">Retro Bowl</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/5e2c431b89f894af62f7b00e515371c1')" onclick="loadPage('/GMS/retrobowlc.html')">
+            <span class="btn-label">Retro Bowl College</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/fd606f33f4c6d32f6529233d6d428360')" onclick="loadPage('/GMS/gdlite.html')">
+            <span class="btn-label">Geometry Dash Lite</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/30ee446f2a07b4bb5bdb032f9f8cb76e')" onclick="loadPage('/GMS/Undertale.html')">
+            <span class="btn-label">Undertale</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/15189d67f0081d6340792ec37cbf9976')" onclick="loadPage('/GMS/undertaley.html')">
+            <span class="btn-label">Undertale Yellow</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e07dc03fef410447072faf09e445d17b')" onclick="loadPage('/GMS/deltarune.html')">
+            <span class="btn-label">Deltarune (DEMO)</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/23c5baeb03b8e7312c4e10b234ac2ff5')" onclick="loadPage('/GMS/cardraw.html')">
+            <span class="btn-label">Car Drawing Game</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/834a50158c24266b52afe92ffe2375ba')" onclick="loadPage('/GMS/ragdollarchers.html')">
+            <span class="btn-label">Ragdoll Archers</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/9f567aad7cafa75f523aa41ecb107429')" onclick="loadPage('/GMS/tinyfishing.html')">
+            <span class="btn-label">Tiny Fishing</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/375c90c362e970d033cd81615355556d')" onclick="loadPage('/GMS/infinitecraft.html')">
+            <span class="btn-label">Infinite Craft</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/7e3c05c3330dcd1aa972e4d654b8d17c')" onclick="loadPage('/GMS/slope.html')">
+            <span class="btn-label">Slope</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/3479bb797713284b8096c5351306e3ac')" onclick="loadPage('/GMS/backrooms.html')">
+            <span class="btn-label">Backrooms</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/00952dda96b6b37998d80e7d49742fe3')" onclick="loadPage('/GMS/theimpossiblequiz.html')">
+            <span class="btn-label">The Impossible Quiz</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/c29abf7880d675ddfe92dc89c2492f49')" onclick="loadPage('/GMS/theimpossiblequiz2.html')">
+            <span class="btn-label">The Impossible Quiz 2</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/d9ef0063f7c436a9a9b21e43e0e0eb8c')" onclick="loadPage('/GMS/bendy.html')">
+            <span class="btn-label">Bendy & The Ink Machine</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/e134864982c81c1ac22d862da35d52db')" onclick="loadPage('/GMS/bitplanes.html')">
+            <span class="btn-label">Bit Planes</span>
+        </div>
+        
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/2b9462dfb86177c8fd57e55fc0d059d7')" onclick="loadPage('/GMS/funnys2.html')">
+            <span class="btn-label">Funny Shooter 2</span>
+        </div>
+        
+    </div>
+
+    <!-- Hidden Iframe Viewer -->
+    <div id="content-viewer">                
+  <button id="close-btn" onclick="unloadPage()">X</button>                
+  <!-- Add this in your <head> if not already present:
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+-->
+
+<button id="launch-btn" onclick="launchAB()" title="Launch a:b">
+    <i class="fas fa-external-link-alt"></i> <!-- Font Awesome Open in New Tab -->
+</button>
+<iframe id="page-frame" src=""></iframe>
+
+
+
+    <script>
+        // Load Page Function
+        function loadPage(url) {
+            document.getElementById('page-frame').src = url;
+            document.getElementById('content-viewer').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        // Unload Page Function
+        function unloadPage() {
+            document.getElementById('content-viewer').style.display = 'none';
+            document.getElementById('page-frame').src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Launch Current Page in about:blank
+        function launchAB() {
+            var url = document.getElementById('page-frame').src;
+            if (!url || url === "" || url === window.location.href) return;
+
+            var win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.body.style.margin = '0';
+                win.document.body.style.height = '100vh';
+                var iframe = win.document.createElement('iframe');
+                iframe.style.border = 'none';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.margin = '0';
+                iframe.src = url;
+                win.document.body.appendChild(iframe);
+            }
+        }
+
+        // Search Filter Logic
+        function filterButtons() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let buttons = document.getElementsByClassName('main-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                let text = buttons[i].querySelector('.btn-label').innerText.toLowerCase();
+                buttons[i].style.display = text.includes(input) ? "flex" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Page</title>
+    <!-- 1. Include Firebase Library -->
+    <script src="https://www.gstatic.com"></script>
+    <script src="https://www.gstatic.com"></script>
+</head>
+<body style="font-family: sans-serif;">
+
+    <!-- Notification Toast Element -->
+    <div id="techNotify" style="position:fixed;top:20px;right:-350px;width:300px;background:#1a1a1a;color:#fff;padding:15px;border-left:4px solid #ff7f00;box-shadow:0 4px 15px rgba(0,0,0,0.5);font-family:sans-serif;transition:right 0.5s ease-in-out;z-index:9999;border-radius:4px;box-sizing:border-box;">
+        <div style="font-weight:bold;color:#ff7f00;margin-bottom:5px;">Message from Admin</div>
+        <div id="notifyMessage" style="font-size:14px;">Process completed successfully.</div>
+        <div id="notifyBar" style="position:absolute;bottom:0;left:0;height:4px;background:#ff7f00;width:100%;"></div>
+    </div>
+
+    <script>
+        // 2. Initialize Firebase (You'll need your own config from firebase.google.com)
+        const firebaseConfig = {
+            databaseURL: "https://YOUR-PROJECT-ID.firebaseio.com"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function showNotification(message) {
+            const toast = document.getElementById("techNotify");
+            const bar = document.getElementById("notifyBar");
+            const messageBody = document.getElementById("notifyMessage");
+
+            if (message) messageBody.innerText = message;
+
+            toast.style.right = "20px";
+            bar.style.transition = "none";
+            bar.style.width = "100%";
+
+            setTimeout(() => {
+                bar.style.transition = "width 3s linear";
+                bar.style.width = "0%";
+            }, 100);
+
+            setTimeout(() => {
+                toast.style.right = "-350px";
+            }, 3000);
+        }
+
+        // 3. Listen for GLOBAL changes in the database
+        database.ref('global_message').on('value', (snapshot) => {
+            const message = snapshot.val();
+            if (message) {
+                showNotification(message);
+            }
+        });
+    </script>
+</body>
+</html>
