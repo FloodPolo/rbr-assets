@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboRealm v2.0</title>
+    <style>
+        :root {
+            --orange: #ff6600;
+            --dark-orange: #e65c00;
+            --bg-color: #0a0a0a;
+            --panel-color: #1a1a1a;
+            --text-color: #ffffff;
+            --font-tech: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-tech);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(26,26,26,0.8);
+            border: 1px solid var(--orange);
+            padding: 8px 15px;
+            border-radius: 50px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-btn img {
+            height: 25px;
+            width: auto;
+            filter: drop-shadow(0 0 2px var(--orange));
+        }
+
+        /* Search Bar Styling */
+        .search-container {
+            margin-top: 120px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            letter-spacing: 4px;
+            color: var(--orange);
+            text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid var(--orange);
+            color: white;
+            font-family: var(--font-tech);
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+        }
+
+        /* Rectangular Image Buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 40px;
+            padding-bottom: 50px;
+        }
+
+        .main-btn {
+            height: 140px;
+            border: 2px solid var(--orange);
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 4px;
+        }
+
+        .main-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px var(--orange);
+        }
+
+        .btn-label {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--orange);
+            width: 100%;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-top: 1px solid var(--orange);
+        }
+
+        /* Page Loader & Buttons */
+        #content-viewer {
+            display: none;
+            position: fixed;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: var(--panel-color);
+            border: 2px solid var(--orange);
+            z-index: 2000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
+
+        #close-btn {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+        }
+
+        #launch-btn {
+            position: absolute;
+            top: -15px;
+            right: 30px; /* Positioned right next to the X */
+            background: var(--orange);
+            color: black;
+            border: 2px solid white;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Notification Toast */
+        #techNotify {
+            position: fixed;
+            top: 20px;
+            right: -350px;
+            width: 300px;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 15px;
+            border-left: 4px solid #ff7f00;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            font-family: sans-serif;
+            transition: right 0.5s ease-in-out;
+            z-index: 9999;
+            border-radius: 4px;
+        }
+        #notifyBar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #ff7f00;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <a href="math.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/108c9f2494e6974b1f4d0f292e80015b"></a>
+        <a href="g.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/71ed269e404bb4f7e7cf45d35c07ccde"></a>
+        <a href="p.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/6f5d8a7fcf0b86d524336babc4fff07c"></a>
+        <a href="mo.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/c5cb4dec5a572a59985e0c6c925c5db9"></a>
+        <a href="a.html" class="nav-btn" title="System"><img src="https://codehs.com/uploads/5517bf4c67458246f4175d7bdbb9fc21"></a>
+
+    </div>
+    </div>
+
+    <div class="search-container">
+        <h1>ROBOREALM V2.0</h1>
+        <input type="text" id="searchBar" placeholder="Search modules..." onkeyup="filterButtons()">
+    </div>
+
+    <div class="button-grid" id="btnGrid">
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/7fa758ceffa27a95f4412ad3af32ab8f')" onclick="loadPage('/MOVIE/tadcep1.html')">
+            <span class="btn-label">TADC EPISODE 1</span>
+        </div>
+        <div class="main-btn" style="background-image: url('https://codehs.com/uploads/b2eb390da1f09b6b906b2912cd451e0c')" onclick="loadPage('/MOVIE/tadcep2.html')">
+            <span class="btn-label">TADC EPISODE 2</span>
+        </div>
+    </div>
+
+    <!-- Content Viewer -->
+    <div id="content-viewer">
+        <button id="close-btn" onclick="unloadPage()">X</button>
+        <button id="launch-btn" onclick="launchAB()" title="Launch a:b">
+            <i class="fas fa-external-link-alt"></i>
+        </button>
+        <iframe id="page-frame" src=""></iframe>
+    </div>
+
+    <!-- Notification -->
+    <div id="techNotify">
+        <div style="font-weight:bold;color:#ff7f00;margin-bottom:5px;">Message from Admin</div>
+        <div id="notifyMessage" style="font-size:14px;">Process completed successfully.</div>
+        <div id="notifyBar"></div>
+    </div>
+
+    <script>
+        function loadPage(url) {
+            document.getElementById('page-frame').src = url;
+            document.getElementById('content-viewer').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function unloadPage() {
+            document.getElementById('content-viewer').style.display = 'none';
+            document.getElementById('page-frame').src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function launchAB() {
+            var url = document.getElementById('page-frame').src;
+            if (!url || url === "" || url === window.location.href) return;
+
+            var win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.body.style.margin = '0';
+                win.document.body.style.height = '100vh';
+                var iframe = win.document.createElement('iframe');
+                iframe.style.border = 'none';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.src = url;
+                win.document.body.appendChild(iframe);
+            }
+        }
+
+        function filterButtons() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let buttons = document.getElementsByClassName('main-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                let text = buttons[i].querySelector('.btn-label').innerText.toLowerCase();
+                buttons[i].style.display = text.includes(input) ? "flex" : "none";
+            }
+        }
+
+        // Notification Logic
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'adminBroadcast') {
+                const toast = document.getElementById('techNotify');
+                const bar = document.getElementById('notifyBar');
+                document.getElementById('notifyMessage').innerText = event.newValue;
+                toast.style.right = '20px';
+                bar.style.transition = 'none';
+                bar.style.width = '100%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 3s linear';
+                    bar.style.width = '0%';
+                }, 100);
+                setTimeout(() => { toast.style.right = '-350px'; }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
