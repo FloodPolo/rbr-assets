@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Settings | OrangeTech</title>
+<style>
+    body {
+        background-color: #121212;
+        color: #ff8c00;
+        font-family: 'Segoe UI', monospace;
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+    }
+    .container {
+        background: #1e1e1e;
+        padding: 2rem;
+        border-radius: 8px;
+        border: 1px solid #ff8c00;
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
+        width: 380px;
+    }
+    h2 {
+        border-bottom: 2px solid #ff8c00;
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
+    .group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #888;
+    }
+    input, select {
+        width: 100%;
+        padding: 10px;
+        background: #2d2d2d;
+        border: 1px solid #444;
+        color: white;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+    input:focus {
+        border-color: #ff8c00;
+        outline: none;
+    }
+    /* Preset List Styling */
+    .preset-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .preset-item {
+        background: #262626;
+        border: 1px solid #444;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .preset-item:hover {
+        border-color: #ff8c00;
+        background: #333;
+    }
+    .preset-item img {
+        width: 24px;
+        height: 24px;
+        display: block;
+        margin: 0 auto 5px;
+    }
+    .preset-item span {
+        font-size: 10px;
+        color: #ccc;
+        display: block;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    button, .back-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-sizing: border-box;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    button {
+        background: #ff8c00;
+        color: #121212;
+    }
+    button:hover {
+        background: #ffa534;
+        box-shadow: 0 0 10px rgba(255,140,0,0.4);
+    }
+    /* Back Button Style */
+    .back-btn {
+        background: #2d2d2d;
+        color: #ff8c00;
+        border: 1px solid #ff8c00;
+    }
+    .back-btn:hover {
+        background: #ff8c00;
+        color: #121212;
+        box-shadow: 0 0 10px rgba(255,140,0,0.4);
+    }
+    #preview-box {
+        font-size: 11px;
+        color: #666;
+        text-align: center;
+        margin-top: 15px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>SYSTEM SETTINGS</h2>
+    <div class="group">
+        <label>Quick Presets (Cloak)</label>
+        <div class="preset-grid">
+            <div class="preset-item" onclick="setPreset('My Drive - Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png')">
+                <img src="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png">
+                <span>Drive</span>
+            </div>
+            <div class="preset-item" onclick="setPreset('Classes', 'https://ssl.gstatic.com/classroom/favicon.png')">
+                <img src="https://ssl.gstatic.com/classroom/favicon.png">
+                <span>Classroom</span>
+            </div>
+            <div class="preset-item" onclick="setPreset('Dashboard', 'https://du11bjcvkw-94-6-1594916242-2020216719.instructure.com/favicon.ico')">
+                <img src="https://du11bjcvkw-94-6-1594916242-2020216719.instructure.com/favicon.ico">
+                <span>Canvas</span>
+            </div>
+            <div class="preset-item" onclick="setPreset('Inbox - youremail@domain.org - District', 'https://codehs.com/uploads/2a854a18cf0cd782e7c3375cb74af547')">
+                <img src="https://codehs.com/uploads/2a854a18cf0cd782e7c3375cb74af547">
+                <span>Gmail</span>
+            </div>
+            <div class="preset-item" onclick="setPreset('Google', 'https://www.google.com/favicon.ico')">
+                <img src="https://www.google.com/favicon.ico">
+                <span>Google</span>
+            </div>
+            <div class="preset-item" onclick="resetSettings()">
+                <div style="height:24px; font-weight:bold; color:#ff3333; text-align:center; line-height:24px;">X</div>
+                <span>Reset</span>
+            </div>
+        </div>
+    </div>
+    <div class="group">
+        <label>Manual Tab Name</label>
+        <input type="text" id="tabName" placeholder="Enter new title...">
+    </div>
+    <div class="group">
+        <label>Manual Favicon URL</label>
+        <input type="text" id="favUrl" placeholder="https://link-to-image.png">
+    </div>
+    <div class="group">
+        <label>Upload custom icon</label>
+        <input type="file" id="favFile" accept="image/*">
+    </div>
+    
+    <!-- ADDED BUTTON HERE -->
+    <a href="math.html" class="back-btn">← Back to Home</a>
+    
+    <button onclick="saveSettings()">APPLY CHANGES</button>
+    <div id="preview-box">Settings persistent across the domain.</div>
+</div>
+<script>
+    // Load existing settings into inputs if they exist
+    window.onload = () => {
+        if(localStorage.getItem('tabName')) document.getElementById('tabName').value = localStorage.getItem('tabName');
+        if(localStorage.getItem('favIcon') && !localStorage.getItem('favIcon').startsWith('data:')) {
+            document.getElementById('favUrl').value = localStorage.getItem('favIcon');
+        }
+    };
+    function setPreset(name, url) {
+        document.getElementById('tabName').value = name;
+        document.getElementById('favUrl').value = url;
+    }
+    function resetSettings() {
+        localStorage.removeItem('tabName');
+        localStorage.removeItem('favIcon');
+        alert("Settings cleared.");
+        location.reload();
+    }
+    function saveSettings() {
+        const name = document.getElementById('tabName').value;
+        const url = document.getElementById('favUrl').value;
+        const fileInput = document.getElementById('favFile');
+        if (name) localStorage.setItem('tabName', name);
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                localStorage.setItem('favIcon', e.target.result);
+                finishSave();
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else if (url) {
+            localStorage.setItem('favIcon', url);
+            finishSave();
+        } else {
+            finishSave();
+        }
+    }
+    function finishSave() {
+        alert("Changes applied!");
+        location.reload();
+    }
+</script>
+</body>
+</html>
