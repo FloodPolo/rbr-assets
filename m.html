@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance</title>
+    
+    <!-- Simplified Font Awesome Link for CodeHS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        
+        .container {
+            border: 2px solid #ff6600;
+            padding: 50px;
+            border-radius: 15px;
+            background-color: #262626;
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+            max-width: 80%;
+        }
+
+        h1 {
+            color: #ff6600;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #ff6600;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e65c00;
+        }
+
+        .icon {
+            font-size: 5em;
+            color: #ff6600;
+            margin-bottom: 15px;
+            /* Animation makes it look more "pro" in CodeHS */
+            animation: spin 4s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon">
+            <i class="fa-solid fa-gear"></i>
+        </div>
+        <h1>Oops!</h1>
+        <p>This page is Under Maintenance!</p>
+        <!-- Make sure this file name matches your home page file -->
+        <a href="math.html" class="btn">Back to Home</a>
+    </div>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Page</title>
+</head>
+<body style= font-family: sans-serif;">
+
+
+    <!-- Notification Toast Element -->
+    <div id="techNotify" style="position:fixed;top:20px;right:-350px;width:300px;background:#1a1a1a;color:#fff;padding:15px;border-left:4px solid #ff7f00;box-shadow:0 4px 15px rgba(0,0,0,0.5);font-family:sans-serif;transition:right 0.5s ease-in-out;z-index:9999;border-radius:4px;box-sizing:border-box;">                
+        <div style="font-weight:bold;color:#ff7f00;margin-bottom:5px;">Message from Admin</div>
+        <div id="notifyMessage" style="font-size:14px;">Process completed successfully.</div>                
+        <div id="notifyBar" style="position:absolute;bottom:0;left:0;height:4px;background:#ff7f00;width:100%;"></div>                
+    </div>
+
+    <script>
+        function showNotification(message) {
+            const toast = document.getElementById('techNotify');
+            const bar = document.getElementById('notifyBar');
+            const messageBody = document.getElementById('notifyMessage');
+
+            if (message) messageBody.innerText = message;
+
+            // Slide in
+            toast.style.right = '20px';
+            
+            // Reset and Animate Bar
+            bar.style.transition = 'none';
+            bar.style.width = '100%';
+            setTimeout(() => {
+                bar.style.transition = 'width 3s linear';
+                bar.style.width = '0%';
+            }, 100);
+
+            // Slide out
+            setTimeout(() => {
+                toast.style.right = '-350px';
+            }, 3000);
+        }
+
+        // Listen for storage changes from admin.html
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'adminBroadcast') {
+                showNotification(event.newValue);
+            }
+        });
+    </script>
+</body>
+</html>
