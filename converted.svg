@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="position:fixed; inset:0;">
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    
+    <body xmlns="http://www.w3.org/1999/xhtml" style="margin:0; width:100%; height:100%; overflow:auto;">
+      
+      <div id="root"></div>
+
+      <style><![CDATA[
+        html, body, #root {
+          width: 100%;
+          min-height: 100vh;
+        }
+
+        body {
+          margin: 0;
+          opacity: 1;
+          font-family: Arial, sans-serif;
+        }
+      ]]></style>
+
+      <script><![CDATA[
+        (() => {
+          const ns = 'http://www.w3.org/1999/xhtml';
+          const body = document.querySelector('body');
+          if (!body) return;
+
+          const svgRoot = document.documentElement;
+
+          const head = document.createElementNS(ns, 'head');
+          body.prepend(head);
+
+          const htmlRoot =
+            body.parentElement &&
+            body.parentElement.namespaceURI === ns
+              ? body.parentElement
+              : body;
+
+          try {
+            Object.defineProperty(document, 'head', {
+              configurable: true,
+              get() { return head; }
+            });
+          } catch {}
+
+          try {
+            Object.defineProperty(document, 'body', {
+              configurable: true,
+              get() { return body; }
+            });
+          } catch {}
+
+          try {
+            Object.defineProperty(document, 'documentElement', {
+              configurable: true,
+              get() { return htmlRoot; }
+            });
+          } catch {}
+
+          try {
+            Object.defineProperty(svgRoot, 'className', {
+              configurable: true,
+              get() { return svgRoot.getAttribute('class') || ''; },
+              set(value) { svgRoot.setAttribute('class', value || ''); }
+            });
+          } catch {}
+
+          const originalCreateElement = document.createElement.bind(document);
+          document.createElement = function(tagName, options) {
+            return typeof tagName === 'string'
+              ? document.createElementNS(ns, tagName, options)
+              : originalCreateElement(tagName, options);
+          };
+        })();
+
+        // Meta + Head injection (app config)
+        const headNodes = [
+          { tag: 'meta', attrs: { charset: 'UTF-8' } },
+          { tag: 'meta', attrs: { name: 'viewport', content: 'width=device-width, initial-scale=1' } },
+          { tag: 'meta', attrs: { name: 'theme-color', content: '#f8f6f1' } },
+          { tag: 'meta', attrs: { name: 'description', content: 'Modern web app platform' } },
+          { tag: 'link', attrs: { rel: 'icon', href: 'logo.png' } },
+          { tag: 'link', attrs: { rel: 'manifest', href: 'manifest.json' } },
+          { tag: 'link', attrs: { rel: 'stylesheet', href: 'index.css', crossorigin: '' } }
+        ];
+
+        for (const nodeDef of headNodes) {
+          const node = document.createElement(nodeDef.tag);
+          for (const [k, v] of Object.entries(nodeDef.attrs)) {
+            node.setAttribute(k, v);
+          }
+          document.head.appendChild(node);
+        }
+
+        const title = document.createElement('title');
+        title.textContent = 'Web App Loader';
+        document.head.appendChild(title);
+
+        // Main app bundle
+        const app = document.createElement('script');
+        app.type = 'module';
+        app.src = 'index.js';
+        document.body.appendChild(app);
+      ]]></script>
+
+    </body>
+  </foreignObject>
+</svg>
